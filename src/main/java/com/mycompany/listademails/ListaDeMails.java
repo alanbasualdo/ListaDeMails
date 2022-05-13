@@ -1,7 +1,6 @@
 package com.mycompany.listademails;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
@@ -29,12 +28,12 @@ public class ListaDeMails {
                         + "1. Insertar mail y su flag\n"
                         + "2. Insertar flags de orden\n"
                         + "3. Ordenar mails por flags\n"
-                        + "4. Ordenar mails por fecha\n"
+                        + "4. Mostrar los mails\n"
                         + "5. Vaciar lista de mails\n"
                         + "6. Salir\n\n"));
 
                 switch (opcion) {
-                    case 1 -> {
+                    case 1:
                         mail = JOptionPane.showInputDialog(null, "Ingresar mail: \nFormato: MailA");
                         flag = JOptionPane.showInputDialog(null, "Ingresar flag para " + mail + ": \nFormatos:\nA\nA B\nFlags disponibles: A B C");
                         fecha = JOptionPane.showInputDialog(null, "Ingresar fecha de recepción para " + mail + ": \nFormatos: DD/MM/AA");
@@ -44,10 +43,9 @@ public class ListaDeMails {
                         m.setMail(mail);
                         m.setFlag(flag);
                         m.setFecha(fecha);
-
                         mails.add(m);
-                    }
-                    case 2 -> {
+                        break;
+                    case 2:
                         if (flags.isEmpty()) {
                             if (!ListaVacia()) {
                                 flags = JOptionPane.showInputDialog(null, "Ingresar flags para el orden:  \nFormato:  [!]<FLAG>-(FIFO|LIFO)\nEjemplo:  B-LIFO|!C-FIFO|C-LIFO");
@@ -58,16 +56,27 @@ public class ListaDeMails {
                         } else {
                             JOptionPane.showMessageDialog(null, flags);
                         }
-                    }
-                    case 3 -> {
+                        break;
+                    case 3:
                         if (!flags.isEmpty()) {
-                            Ordenar(flags);
+                            if (!mails.isEmpty()) {
+                                Ordenar(flags);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "La lista de mails no se puede ordenar porque está vacía.");
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null, "No hay flags.");
                         }
-                    }
-                    case 4 ->
+                        break;
+                    case 4:
                         MostrarMails();
+                        break;
+                    case 5:
+                        mails.removeAll(mails);
+                        if (mails.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "La lista de mails está vacía.");
+                        }
+                        break;
                 }
 
             } catch (NumberFormatException e) {
@@ -256,7 +265,6 @@ public class ListaDeMails {
                         mailsCopy.remove(i);
                     }
                 }
-
             }
             partesPorParte++;
         }
@@ -365,28 +373,30 @@ public class ListaDeMails {
         System.out.println("p2: " + p2);
         System.out.println("p3: " + p3);
 
-        ArrayList<String> todo = new ArrayList<>();
+        String resultadoFinal = "";
 
         int i = 1;
 
         if (i == 1) {
             for (String v : p1) {
-                todo.add(v);
+                resultadoFinal += v + "\n";
             }
             i++;
-        } else if (i == 2) {
-            for (String v : p1) {
-                todo.add(v);
+        }
+        if (i == 2) {
+            for (String v : p2) {
+                resultadoFinal += v + "\n";
             }
             i++;
-        } else if (i == 3) {
-            for (String v : p1) {
-                todo.add(v);
+        }
+        if (i == 3) {
+            for (String v : p3) {
+                resultadoFinal += v + "\n";
             }
             i++;
         }
 
-        System.out.println(todo);
+        JOptionPane.showMessageDialog(null, resultadoFinal);
 
     }
 }
