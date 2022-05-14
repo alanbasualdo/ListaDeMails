@@ -26,8 +26,8 @@ public class ListaDeMails {
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Menú de opciones\n\n"
                         + "1. Insertar mail y su flag\n"
-                        + "2. Insertar flags de orden\n"
-                        + "3. Ordenar mails por flags\n"
+                        + "2. Insertar elementos de orden\n"
+                        + "3. Ordenar mails\n"
                         + "4. Mostrar los mails\n"
                         + "5. Vaciar lista de mails\n"
                         + "6. Salir\n\n"));
@@ -251,15 +251,12 @@ public class ListaDeMails {
                     if (mailsCopy.get(i).getFlag().contains("A")) {
                         // Agrego los mails respecto el índice a su respectivo Deque (en este caso "p1")
                         p1.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        // Una vez agregado, elimino de la copia de la lista de mails el índice actual para que no se repita
-                        mailsCopy.remove(i);
                     }
                 }
             } else if (parte1.equals("A-LIFO")) {
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("A")) {
                         p1.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
                     }
                 }
             }
@@ -267,14 +264,12 @@ public class ListaDeMails {
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("B")) {
                         p1.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
                     }
                 }
             } else if (parte1.equals("B-LIFO")) {
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("B")) {
                         p1.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
                     }
                 }
             }
@@ -282,14 +277,12 @@ public class ListaDeMails {
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("C")) {
                         p1.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
                     }
                 }
             } else if (parte1.equals("C-LIFO")) {
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("C")) {
                         p1.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
                     }
                 }
             }
@@ -297,101 +290,207 @@ public class ListaDeMails {
             partesPorParte++;
         }
 
+        // Esta sección de código es igual que la anterior
         // Parte 2 (Ejemplo: !C-FIFO = A-FIFO)
         if (partesPorParte == 2) {
             if (parte2.equals("A-FIFO")) {
+
+                // Recorro "p1" para almacenar en "p1Tiene" los mails que ya se agregaron y así no repetir ninguno
+                String p1Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("A")) {
-                        p2.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p2.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
+
             } else if (parte2.equals("A-LIFO")) {
+
+                String p1Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("A")) {
-                        p2.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p2.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             }
             if (parte2.equals("B-FIFO")) {
+
+                String p1Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("B")) {
-                        p2.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p2.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             } else if (parte2.equals("B-LIFO")) {
+
+                String p1Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("B")) {
-                        p2.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p2.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             }
             if (parte2.equals("C-FIFO")) {
+
+                String p1Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("C")) {
-                        p2.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p2.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             } else if (parte2.equals("C-LIFO")) {
+
+                String p1Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("C")) {
-                        p2.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p2.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             }
             partesPorParte++;
         }
 
+        // Esta sección de código es igual que la anterior
         // Parte 3 (Ejemplo: C-LIFO)
         if (partesPorParte == 3) {
             if (parte3.equals("A-FIFO")) {
+
+                String p1Tiene = "", p2Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+                for (String index : p2) {
+                    p2Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("A")) {
-                        p3.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail()) && !p2Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p3.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             } else if (parte3.equals("A-LIFO")) {
+
+                String p1Tiene = "", p2Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+                for (String index : p2) {
+                    p2Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("A")) {
-                        p3.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail()) && !p2Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p3.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
 
             }
             if (parte3.equals("B-FIFO")) {
+
+                String p1Tiene = "", p2Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+                for (String index : p2) {
+                    p2Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("B")) {
-                        p3.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail()) && !p2Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p3.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             } else if (parte3.equals("B-LIFO")) {
+
+                String p1Tiene = "", p2Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+                for (String index : p2) {
+                    p2Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("B")) {
-                        p3.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail()) && !p2Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p3.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             }
             if (parte3.equals("C-FIFO")) {
+
+                String p1Tiene = "", p2Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+                for (String index : p2) {
+                    p2Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("C")) {
-                        p3.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail()) && !p2Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p3.offer(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             } else if (parte3.equals("C-LIFO")) {
+
+                String p1Tiene = "", p2Tiene = "";
+                for (String index : p1) {
+                    p1Tiene += index;
+                }
+                for (String index : p2) {
+                    p2Tiene += index;
+                }
+
                 for (int i = 0; i < mailsCopy.size(); i++) {
                     if (mailsCopy.get(i).getFlag().contains("C")) {
-                        p3.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
-                        mailsCopy.remove(i);
+                        if (!p1Tiene.contains(mailsCopy.get(i).getMail()) && !p2Tiene.contains(mailsCopy.get(i).getMail())) {
+                            p3.push(mailsCopy.get(i).getMail() + "   Flags: " + mailsCopy.get(i).getFlag() + "   Fecha de recepción: " + mailsCopy.get(i).getFecha());
+                        }
                     }
                 }
             }
